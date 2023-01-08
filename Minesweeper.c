@@ -47,7 +47,7 @@
 
 
 struct Player {
-    char Username[101];
+    char Username[51];
     int id;
     int Loss;
     int Win;
@@ -141,16 +141,16 @@ int main() {
             }
 
 
-            if (strlen(User_Input) > 101) {
+            if (strlen(User_Input) > 51) {
                 Bar_Status(Userptr, 0);
-                printf("Username length should not be more than 100\n");
+                Error_Management(21);
                 continue;
             }
 
 
             if (strlen(User_Input) < 2) {
                 Bar_Status(Userptr, 0);
-                printf("Username length must be more than 1 Character\n");
+                Error_Management(22);
                 continue;
             }
 
@@ -232,29 +232,51 @@ void Print_Player_Info(struct Player* in) {
 
 void Change_Player_UserName(struct Player* User, struct Player* Users) {
 
-    Bar_Status(User, 1);
-    printf("Enter Your New UserName (/ ~ Back): ");
-
-    char in_n_user[101];
-
-    gets(in_n_user);
-
-    if ( strcmp(in_n_user, "/") == 0 ) {
+    char in_n_user[1001];
+    
+    while(1) {
+    
         Bar_Status(User, 1);
-        printf("Username did not Change :(\n");
-        Sleep(500);
-        return;
-    }
+        printf("Enter Your New UserName (/ ~ Back): ");
 
-    for (int i=0; i<Users_Counter; i++) {
+        gets(in_n_user);
 
-        if ( strcmp(in_n_user, Users[i].Username) == 0) {
-            
-            Error_Management(20);
-            Change_Player_UserName(User, Users);
+        if ( strcmp(in_n_user, "/") == 0 ) {
+            Bar_Status(User, 1);
+            printf("Username did not Change :(\n");
+            Sleep(500);
             return;
-        
         }
+        
+        int is_duplicate = 0;
+        for (int i=0; i<Users_Counter; i++) {
+
+            if ( strcmp(in_n_user, Users[i].Username) == 0) {
+                
+                Error_Management(20);
+                is_duplicate = 1;
+                break;
+
+            }
+        }
+
+        if (is_duplicate) continue;
+
+        if (strlen(in_n_user) > 51) {
+            Bar_Status(User, 1);
+            Error_Management(21);
+            continue;
+        }
+
+
+        if (strlen(in_n_user) < 2) {
+            Bar_Status(User, 1);
+            Error_Management(22);
+            continue;
+        }
+
+        break;
+
     }
 
     strcpy(User->Username, in_n_user);
@@ -1323,14 +1345,12 @@ void Error_Management(int code) {
             printf("%s#Code 1-0%s\n", Color_Yellow, Color_Reset);
             printf("      %sError in Receiving the Number.\n", Color_Gray);
             printf("      Please Enter a Number in the given Range.%s\n", Color_Reset);
-            Sleep(3000);
             break;
 
         case 11:
             printf("%s#Code 1-1%s\n", Color_Yellow, Color_Reset);
             printf("      %sError in Receiving the Number.\n", Color_Gray);
             printf("      Please Enter a NUMBER :/%s\n", Color_Reset);
-            Sleep(3000);
             break;
 
         case 12: //very out of range
@@ -1338,28 +1358,36 @@ void Error_Management(int code) {
             printf("      %sError in Receiving the Number. Keep Calm :)\n", Color_Gray);
             printf("      Everything is Under Control :)\n");
             printf("      Please Enter a Number in the given Range.%s\n", Color_Reset);
-            Sleep(3000);
             break;
 
         case 20:
             printf("%s#Code 2-0%s\n", Color_Yellow, Color_Reset);
             printf("      %sError in receiving UserName.\n", Color_Gray);
             printf("      Please do not Enter a duplicate UserName.%s\n", Color_Reset);
-            Sleep(3000);
+            break;
+
+        case 21:
+            printf("%s#Code 2-1%s\n", Color_Yellow, Color_Reset);
+            printf("      %sError in receiving UserName.\n", Color_Gray);
+            printf("      Username length should not be more than 50.%s\n", Color_Reset);
+            break;
+
+        case 22:
+            printf("%s#Code 2-2%s\n", Color_Yellow, Color_Reset);
+            printf("      %sError in receiving UserName.\n", Color_Gray);
+            printf("      Username length must be more than 1 Character.%s\n", Color_Reset);
             break;
     
         case 30: // delete admin :/
             printf("%s#Code 3-0%s\n", Color_Yellow, Color_Reset);
             printf("      %sError Deleting Admin.\n", Color_Gray);
             printf("      Why do you want to destroy yourself ? :/%s\n", Color_Reset);
-            Sleep(3000);
             break;
 
         case 31: // edit admin :/
             printf("%s#Code 3-1%s\n", Color_Yellow, Color_Reset);
             printf("      %sError in Editing Admin.\n", Color_Gray);
             printf("      Why do you want to edit the admin :/%s\n", Color_Reset);
-            Sleep(3000);
             break;
 
 
@@ -1369,6 +1397,8 @@ void Error_Management(int code) {
             break;
     }
 
+    Sleep(3000);
+
     //* Spam Protection :))))))
     printf("    %sPress Ctrl+C to Continue. %s", Color_Green, Color_Reset);
     
@@ -1376,15 +1406,16 @@ void Error_Management(int code) {
     int c = 0, cc = 0;
 
     while (x != 3) {
+
         x = getch();
         c++;
 
-        if (c>20) {
+        if (c>10) {
             printf("%s!%s", Color_Red, Color_Reset);
-            c -= 20;
+            c -= 10;
             cc++;
-        } 
-        
+        }
+
         // Emergency EXIT :/
         if (cc >= 10) {
             printf("%s WTF :/%s", Color_Yellow, Color_Reset);
@@ -1395,7 +1426,6 @@ void Error_Management(int code) {
     }
 
     printf("\n");
-    RUN_CLS;
 
 }
 
