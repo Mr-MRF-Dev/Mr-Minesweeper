@@ -81,10 +81,11 @@ int Len_Number(int num);
 
 
 //* cls Command
-#define RUN_CLS if (1) system("cls")
+int run_cls = 0;
+#define RUN_CLS if (run_cls) system("cls")
 
 
-int Counter = 1;
+int Users_Counter = 1;
 
 
 int main() {
@@ -114,42 +115,47 @@ int main() {
     Users[0].Win_Streak = 49;
 
 
+    char User_Input[1001];
 
+    // main loop
     while (1) {
 
-        struct Player* Userptr = &Users[Counter];
+        struct Player* Userptr = &Users[Users_Counter];
 
-        char User_Input[1001];
+        // get UserName loop
+        while (1) {
 
-        GOTO_User_Name_Input:
-
-        //* Get Player Name
-        Bar_Status(Userptr, 0);
-        printf("Enter your Username (/ ~ Exit): ");
-
-        gets(User_Input);
-        fflush(stdin);
-
-        // exit 
-        if ( strcmp(User_Input, "/") == 0 ) {
+            //* Get Player Name
             Bar_Status(Userptr, 0);
-            printf("%sExit%s :) %sBye Bye.\n",Color_Red, Color_Yellow, Color_Reset);
-            Sleep(3000);
-            exit(0);
-        }
+            printf("Enter your Username (/ ~ Exit): ");
+
+            gets(User_Input);
+            fflush(stdin);
+
+            // exit 
+            if ( strcmp(User_Input, "/") == 0 ) {
+                Bar_Status(Userptr, 0);
+                printf("%sExit%s :) %sBye Bye.\n",Color_Red, Color_Yellow, Color_Reset);
+                Sleep(3000);
+                exit(0);
+            }
 
 
-        if (strlen(User_Input) > 101) {
-            Bar_Status(Userptr, 0);
-            printf("Username length should not be more than 100\n");
-            goto GOTO_User_Name_Input;
-        }
+            if (strlen(User_Input) > 101) {
+                Bar_Status(Userptr, 0);
+                printf("Username length should not be more than 100\n");
+                continue;
+            }
 
 
-        if (strlen(User_Input) < 2) {
-            Bar_Status(Userptr, 0);
-            printf("Username length must be more than 1 Character\n");
-            goto GOTO_User_Name_Input;
+            if (strlen(User_Input) < 2) {
+                Bar_Status(Userptr, 0);
+                printf("Username length must be more than 1 Character\n");
+                continue;
+            }
+
+            break;
+
         }
 
 
@@ -163,7 +169,7 @@ int main() {
 
         
         int flag_login = 0;
-        for (int i=0; i < Counter; i++) {
+        for (int i=0; i < Users_Counter; i++) {
 
             if ( strcmp(User_Input, Users[i].Username) == 0) {
                 
@@ -179,15 +185,15 @@ int main() {
         if (flag_login == 0) {
 
             strcpy(Userptr->Username, User_Input);
-            Userptr->id = Counter;
+            Userptr->id = Users_Counter;
             Userptr->Loss = 0;
             Userptr->Win = 0;
             Userptr->Cur_Streak = 0;
             Userptr->Win_Streak = 0;
 
-            Counter++;
+            Users_Counter++;
 
-            if (Counter == Users_Size) {
+            if (Users_Counter == Users_Size) {
                 Users_Size += 100;
                 Users = (struct Player*)realloc(Users, Users_Size * sizeof(struct Player));
             
@@ -204,7 +210,7 @@ int main() {
         Main_Menu(Userptr, Users);
 
 
-    } // While End
+    } // Main While End
 
     return 0;
 }
@@ -240,7 +246,7 @@ void Change_Player_UserName(struct Player* User, struct Player* Users) {
         return;
     }
 
-    for (int i=0; i<Counter; i++) {
+    for (int i=0; i<Users_Counter; i++) {
 
         if ( strcmp(in_n_user, Users[i].Username) == 0) {
             
@@ -264,7 +270,7 @@ void Change_Player_UserName(struct Player* User, struct Player* Users) {
 
 void Delete_Player(int id, struct Player* Users) {
 
-    for (int i = id; i<Counter-1; i++) {
+    for (int i = id; i<Users_Counter-1; i++) {
         
         strcpy(Users[i].Username, Users[i+1].Username);
         // Users[i].id = i;
@@ -275,13 +281,13 @@ void Delete_Player(int id, struct Player* Users) {
 
     }
 
-    strcpy(Users[Counter-1].Username, "NULL");
-    Users[Counter-1].Loss = 0;
-    Users[Counter-1].Win = 0;
-    Users[Counter-1].Win_Streak = 0;
-    Users[Counter-1].Cur_Streak = 0;
+    strcpy(Users[Users_Counter-1].Username, "NULL");
+    Users[Users_Counter-1].Loss = 0;
+    Users[Users_Counter-1].Win = 0;
+    Users[Users_Counter-1].Win_Streak = 0;
+    Users[Users_Counter-1].Cur_Streak = 0;
     
-    Counter--;
+    Users_Counter--;
 
 }
 
@@ -1077,7 +1083,7 @@ void Admin_Panel(struct Player* Admin, struct Player* Users) {
         case 1:
             printf("\n     %sID | UserName | Win | Loss | Current Streak | Winning Streak%s\n", Color_Gray, Color_Reset);
 
-            for (int i = 0; i<Counter; i++) {
+            for (int i = 0; i<Users_Counter; i++) {
 
                 printf("    ");
                 printf("%s %2d %s", Color_Yellow, Users[i].id, Color_Reset);
@@ -1175,9 +1181,9 @@ void Admin_Panel(struct Player* Admin, struct Player* Users) {
             GOTO_GetUserID:
 
             Bar_Status(Admin, 2);
-            printf("Enter A User ID (0 ~ %d) (Ctrl+C ~ Back): ", Counter-1);
+            printf("Enter A User ID (0 ~ %d) (Ctrl+C ~ Back): ", Users_Counter-1);
 
-            int del_in = User_Input_Number_Range(0, Counter-1);
+            int del_in = User_Input_Number_Range(0, Users_Counter-1);
 
             if (del_in == -1) goto GOTO_GetUserID;
 
@@ -1204,9 +1210,9 @@ void Admin_Panel(struct Player* Admin, struct Player* Users) {
             GOTO_GetUserID_Edit:
             
             Bar_Status(Admin, 2);
-            printf("Enter A User ID (0 ~ %d) (Ctrl+C ~ Back): ", Counter-1);
+            printf("Enter A User ID (0 ~ %d) (Ctrl+C ~ Back): ", Users_Counter-1);
 
-            int id_edit_in = User_Input_Number_Range(0, Counter-1);
+            int id_edit_in = User_Input_Number_Range(0, Users_Counter-1);
             
             if (id_edit_in == -1) goto GOTO_GetUserID_Edit;
 
