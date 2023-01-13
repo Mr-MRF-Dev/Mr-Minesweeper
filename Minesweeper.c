@@ -337,80 +337,86 @@ void Bar_Status(struct Player* User, int login) {
 
 void Main_Menu(struct Player* User, struct Player* Users) {
 
-    Bar_Status(User, 1);
-    printf("Game Menu:\n\n");
-    printf("    %s1 %s> %sPlay Game\n", Color_Yellow, Color_Aqua, Color_Reset);
-    printf("    %s2 %s> %sPlayer Info\n", Color_Yellow, Color_Aqua, Color_Reset);
-    printf("    %s3 %s> %sChange Name\n", Color_Yellow, Color_Aqua, Color_Reset);
-    printf("    %s4 %s> %sDelete Account\n", Color_Yellow, Color_Aqua, Color_Reset);
-    printf("    %s5 %s> %sLogout\n", Color_Yellow, Color_Aqua, Color_Reset);
-    printf("    %s6 %s> %sExit\n", Color_Yellow, Color_Aqua, Color_Reset);
+    while(1) {
 
-    Sleep(500);
+        Bar_Status(User, 1);
+        printf("Game Menu:\n\n");
+        printf("    %s1 %s> %sPlay Game\n", Color_Yellow, Color_Aqua, Color_Reset);
+        printf("    %s2 %s> %sPlayer Info\n", Color_Yellow, Color_Aqua, Color_Reset);
+        printf("    %s3 %s> %sChange Name\n", Color_Yellow, Color_Aqua, Color_Reset);
+        printf("    %s4 %s> %sDelete Account\n", Color_Yellow, Color_Aqua, Color_Reset);
+        printf("    %s5 %s> %sLogout\n", Color_Yellow, Color_Aqua, Color_Reset);
+        printf("    %s6 %s> %sExit\n", Color_Yellow, Color_Aqua, Color_Reset);
 
-    Bar_Status(User, 1);
-    printf("Select one More: ");
+        Sleep(500);
 
-    int in_code = User_Input_Number_Range(1, 6);
+        Bar_Status(User, 1);
+        printf("Select one More: ");
 
-    switch ( in_code ) {
+        int in_code = User_Input_Number_Range(1, 6);
 
-        // ctrl + c exit code 
-        case -2:
-            printf("%sExit.%s", Color_Red, Color_Reset);
-            Sleep(3000);
-            exit(0);
-            break;
+        switch ( in_code ) {
 
-        case 1:
-            Game_Menu(User);
-            break;
+            // ctrl + c exit code 
+            case -2:
+                printf("%sExit.%s", Color_Red, Color_Reset);
+                Sleep(3000);
+                exit(0);
+                break;
 
-        case 2:
-            Bar_Status(User, 1);
-            printf("Player Info:\n");
-            Print_Player_Info(User);
-            break;
+            case -1: // Error input
+                break;
 
-        case 3:
-            Change_Player_UserName(User, Users);
-            break;
+            case 1:
+                Game_Menu(User);
+                break;
 
-        case 4:
-            Bar_Status(User, 1);
-            printf("%sWarning:%s Press Ctrl+C to Delete (To Cancel, Press Another Button). ", Color_Yellow, Color_Reset);
+            case 2:
+                Bar_Status(User, 1);
+                printf("Player Info:\n");
+                Print_Player_Info(User);
+                break;
 
-            int x = getch();
+            case 3:
+                Change_Player_UserName(User, Users);
+                break;
 
-            if (x == 3) {
-                Delete_Player(User->id, Users);
-                printf("%sDeleted\n%s", Color_Yellow, Color_Reset);
+            case 4:
+                Bar_Status(User, 1);
+                printf("%sWarning:%s Press Ctrl+C to Delete (To Cancel, Press Another Button). ", Color_Yellow, Color_Reset);
+
+                int x = getch();
+
+                if (x == 3) {
+                    Delete_Player(User->id, Users);
+                    printf("%sDeleted\n%s", Color_Yellow, Color_Reset);
+                    Sleep(1500);
+                    RUN_CLS;
+                    return;
+                }
+
+                else printf("%sCancelled\n%s", Color_Green, Color_Reset);
+                break;
+
+            case 5:
+                Bar_Status(User, 1);
+                printf("logout Successful.\n");
                 Sleep(1500);
                 RUN_CLS;
                 return;
-            }
+                break;
 
-            else printf("%sCancelled\n%s", Color_Green, Color_Reset);
-            break;
+            case 6:
+                Bar_Status(User, 1);
+                printf("%sExit%s :) %sBye Bye.\n",Color_Red, Color_Yellow, Color_Reset);
+                Sleep(3000);
+                exit(0);
+                return;
+                break;
+        
+        } // switch end
 
-        case 5:
-            Bar_Status(User, 1);
-            printf("logout Successful.\n");
-            Sleep(1500);
-            RUN_CLS;
-            return;
-            break;
-
-        case 6:
-            Bar_Status(User, 1);
-            printf("%sExit%s :) %sBye Bye.\n",Color_Red, Color_Yellow, Color_Reset);
-            Sleep(3000);
-            exit(0);
-            return;
-            break;
-    }
-
-    Main_Menu(User, Users);
+    } // while end
 
 }
 
