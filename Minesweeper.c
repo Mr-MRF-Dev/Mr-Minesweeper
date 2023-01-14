@@ -424,103 +424,133 @@ void Main_Menu(struct Player* User, struct Player* Users) {
 
 void Game_Menu(struct Player* User) {
 
-    Bar_Status(User, 1);
-    printf("Choose Your desired Size Board:\n\n");
-    printf("    %s1 %s> %sEasy (9*9 ~ 10)\n", Color_Yellow, Color_Aqua, Color_Reset);
-    printf("    %s2 %s> %sMedium (12*12 ~ 20)\n", Color_Yellow, Color_Aqua, Color_Reset);
-    printf("    %s3 %s> %sHard (25*25 ~ 100)\n", Color_Yellow, Color_Aqua, Color_Reset);
-    printf("    %s4 %s> %sCustom Game\n", Color_Yellow, Color_Aqua, Color_Reset);
-    printf("    %s5 %s> %sBack to Menu\n", Color_Yellow, Color_Aqua, Color_Reset);
+    while (1) {
 
-    Sleep(500);
+        Bar_Status(User, 1);
+        printf("Choose Your desired Size Board:\n\n");
+        printf("    %s1 %s> %sEasy (9*9 ~ 10)\n", Color_Yellow, Color_Aqua, Color_Reset);
+        printf("    %s2 %s> %sMedium (12*12 ~ 20)\n", Color_Yellow, Color_Aqua, Color_Reset);
+        printf("    %s3 %s> %sHard (25*25 ~ 100)\n", Color_Yellow, Color_Aqua, Color_Reset);
+        printf("    %s4 %s> %sCustom Game\n", Color_Yellow, Color_Aqua, Color_Reset);
+        printf("    %s5 %s> %sBack to Menu\n", Color_Yellow, Color_Aqua, Color_Reset);
 
-    Bar_Status(User, 1);
-    printf("Select one More: ");
+        Sleep(500);
 
-    int in_code = User_Input_Number_Range(1, 5);
+        Bar_Status(User, 1);
+        printf("Select one More: ");
 
-    switch ( in_code ) {
+        int in_code = User_Input_Number_Range(1, 5);
 
-        // ctrl + c exit code 
-        case -2:
-            printf("%sExit.%s", Color_Red, Color_Reset);
-            Sleep(3000);
-            exit(0);
-            break;
+        switch ( in_code ) {
 
-        case 1:
-            Play_Game(User, 9, 10, 3);
-            break;
-
-        case 2:
-            Play_Game(User, 12, 20, 3);
-            break;
-
-        case 3:
-            Play_Game(User, 25, 100, 9);
-            break;
-
-        case 4:
-            // custom game            
-            GOTO_GetSize:
-            Bar_Status(User, 1);
-            printf("Enter Size of Board: (3 ~ 30) (Ctrl+C ~ Back): "); 
-            
-            int Size_Custom = User_Input_Number_Range(1, 30);
-
-            if (Size_Custom == -1) goto GOTO_GetSize;
-            if (Size_Custom == -2) {
-                printf("Back.\n");
-                Sleep(500);
+            // ctrl + c exit code 
+            case -2:
+                printf("%sExit.%s", Color_Red, Color_Reset);
+                Sleep(3000);
+                exit(0);
                 break;
-            }
 
-
-            GOTO_GetBoobC:
-            Bar_Status(User, 1);
-            printf("Enter the Number of Bombs: (1 ~ %d): ", Size_Custom*Size_Custom);
-
-            int Boob_C_Custom = User_Input_Number_Range(1, Size_Custom*Size_Custom);
-
-            if (Boob_C_Custom == -1) goto GOTO_GetBoobC;
-            if (Boob_C_Custom == -2) {
-                printf("Back.\n");
-                Sleep(500);
+            case 1:
+                Play_Game(User, 9, 10, 3);
                 break;
-            }
 
-
-            GOTO_GetMaxBoobColumn:
-
-            int min_boob_custom = Boob_C_Custom / Size_Custom + 1;
-
-            if (min_boob_custom > Size_Custom) min_boob_custom = Size_Custom;
-
-
-            Bar_Status(User, 1);
-            printf("Enter Max Number of Bombs per Column (%d ~ %d): ", min_boob_custom, Size_Custom);
-
-            int Max_Boob_col_Custom = User_Input_Number_Range( min_boob_custom, Size_Custom);
-
-            if (Max_Boob_col_Custom == -1) goto GOTO_GetMaxBoobColumn;
-            if (Max_Boob_col_Custom == -2) {
-                printf("Back.\n");
-                Sleep(500);
+            case 2:
+                Play_Game(User, 12, 20, 3);
                 break;
-            }
+
+            case 3:
+                Play_Game(User, 25, 100, 9);
+                break;
+
+            case 4:
+                //* Custom Game            
+                int Exit_Code_Custom = 0;
+
+                // Get Board Size
+                int Size_Custom;
+                while (1) {
+
+                    Bar_Status(User, 1);
+                    printf("Enter Size of Board: (3 ~ 30) (Ctrl+C ~ Back): "); 
+                    
+                    Size_Custom = User_Input_Number_Range(1, 30);
+
+                    if (Size_Custom == -1) continue;
+                    if (Size_Custom == -2) {
+                        printf("Back.\n");
+                        Exit_Code_Custom = 1;
+                        Sleep(500);
+                    }
+
+                    break;
+
+                }
+
+                if(Exit_Code_Custom) break; 
+
+                
+                // Get Number Of Bomb
+                int Boob_C_Custom;
+                while(1) {
+
+                    Bar_Status(User, 1);
+                    printf("Enter the Number of Bombs: (1 ~ %d): ", Size_Custom * Size_Custom);
+
+                    Boob_C_Custom = User_Input_Number_Range(1, Size_Custom * Size_Custom);
+
+                    if (Boob_C_Custom == -1) continue;
+                    if (Boob_C_Custom == -2) {
+                        printf("Back.\n");
+                        Exit_Code_Custom = 1;
+                        Sleep(500);
+                    }
+
+                    break;
+
+                }
+
+                if(Exit_Code_Custom) break; 
 
 
-            Play_Game(User, Size_Custom, Boob_C_Custom, Max_Boob_col_Custom);
-            break;
+                // Get Max Number of Bombs per Column
+                int Max_Boob_col_Custom;
+                int min_boob_custom = Boob_C_Custom / Size_Custom + 1;
 
-        case 5:
-            Bar_Status(User, 1);
-            printf("Back To Menu.\n");
-            Sleep(500);
-            return;
-    }
+                if (min_boob_custom > Size_Custom) min_boob_custom = Size_Custom;
 
-    Game_Menu(User);
+                while(1) {
+                    Bar_Status(User, 1);
+                    printf("Enter Max Number of Bombs per Column (%d ~ %d): ", min_boob_custom, Size_Custom);
+
+                    Max_Boob_col_Custom = User_Input_Number_Range(min_boob_custom, Size_Custom);
+
+                    if (Max_Boob_col_Custom == -1) continue;
+                    if (Max_Boob_col_Custom == -2) {
+                        printf("Back.\n");
+                        Exit_Code_Custom = 1;
+                        Sleep(500);
+                    }
+                    
+                    break;
+                
+                }
+
+                if(Exit_Code_Custom) break; 
+
+
+                // Play Game:)
+                Play_Game(User, Size_Custom, Boob_C_Custom, Max_Boob_col_Custom);
+                break;
+
+            case 5:
+                Bar_Status(User, 1);
+                printf("Back To Menu.\n");
+                Sleep(500);
+                return;
+
+        } // Switch end
+
+    } // While end
 
 }
 
