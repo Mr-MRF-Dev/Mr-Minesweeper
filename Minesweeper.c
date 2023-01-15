@@ -847,10 +847,12 @@ void Play_Game(struct Player* User, int Size_Board, int Boob_C, int Max_Column_S
     Print_Game(Board, User, Size_Board, Boob_C, loss, Flag_Left, 0);
 
     int i=0, j=0, in_c=0;
+    int ctrl_c_exit_game = 0;
+    int debug_input_esc = 0;
 
     while( Space_B != 0 || Flag_Left != 0 ) {
 
-        GOTO_Get_Input:
+        ctrl_c_exit_game = 0;
 
         if (i == -2 || j == -2 || in_c == 3) {
             // ctrl+c ~ exit code 
@@ -860,7 +862,16 @@ void Play_Game(struct Player* User, int Size_Board, int Boob_C, int Max_Column_S
             int exit_game = getch();
 
             if (exit_game == 3) {
+
                 printf("%sExit%s\n", Color_Yellow, Color_Reset);
+                    
+                    // free the board
+                    for (int k=0; k < Size_Board; k++) {
+                        free(Board[k]);
+                    }
+
+                    free(Board);
+
                 return;
             }
 
@@ -870,43 +881,75 @@ void Play_Game(struct Player* User, int Size_Board, int Boob_C, int Max_Column_S
 
 
         // get column (x)
-        GOTO_Enter_Column:
-        Bar_Status(User, 1);
-        printf("Enter Column: ");
-        j = User_Input_Number_Range(1, Size_Board);
-        
-        if (j == -1) goto GOTO_Enter_Column;
-        if (j == -2) goto GOTO_Get_Input;
+        while(1) {
+            Bar_Status(User, 1);
+            printf("Enter Column: ");
+            j = User_Input_Number_Range(1, Size_Board);
+            
+            if (j == -1) continue;
 
-
-        // get row (y)
-        GOTO_Enter_Row:
-        Bar_Status(User, 1);
-        printf("Enter Row: ");
-        i = User_Input_Number_Range(1, Size_Board);
-
-        if (i == -1) goto GOTO_Enter_Row;
-        if (i == -2) goto GOTO_Get_Input;
-
-
-        // get char
-        GOTO_Enter_Char:
-        Bar_Status(User, 1);
-        printf("Plz Enter R ~ L: ");
-        
-        in_c = getch();
-        printf("%c\n", in_c);
-
-        if (in_c == 3) goto GOTO_Get_Input;
-
-        if (in_c == 27) {
-            // debug mode ~ esc (back door) 
-            Print_Game(Board, User, Size_Board, Boob_C, loss, Flag_Left, 1);
-            continue;
+            if (j == -2) ctrl_c_exit_game = 1;
+            
+            break;
         }
 
 
-        if ( in_c != 'R' && in_c != 'r' && in_c != 'L' && in_c != 'l' ) goto GOTO_Enter_Char;
+        // Return to the beginning of the While
+        if (ctrl_c_exit_game) continue;
+
+
+        // get row (y)
+        while(1) {
+            Bar_Status(User, 1);
+            printf("Enter Row: ");
+            i = User_Input_Number_Range(1, Size_Board);
+
+            if (i == -1) continue;
+
+            if (i == -2) ctrl_c_exit_game = 1;
+        
+            break;
+        }
+
+
+        // Return to the beginning of the While
+        if (ctrl_c_exit_game) continue;
+
+
+        // get char
+        debug_input_esc = 0;
+
+        while(1) {
+            Bar_Status(User, 1);
+            printf("Plz Enter R ~ L: ");
+            
+            in_c = getch();
+            printf("%c\n", in_c);
+
+            if (in_c == 3) {
+                ctrl_c_exit_game = 1;
+            }
+
+            else if (in_c == 27) {
+                // debug mode ~ esc (back door) 
+                Print_Game(Board, User, Size_Board, Boob_C, loss, Flag_Left, 0);
+                Print_Game(Board, User, Size_Board, Boob_C, loss, Flag_Left, 1);
+                debug_input_esc = 1;
+            }
+
+            else if ( in_c != 'R' && in_c != 'r' && in_c != 'L' && in_c != 'l' ) continue;
+
+            break;
+
+        }
+
+
+        // Return to the beginning of the While
+        if (ctrl_c_exit_game) continue;
+
+
+        // back to get data
+        if (debug_input_esc) continue;
 
 
         i--;
@@ -936,7 +979,6 @@ void Play_Game(struct Player* User, int Size_Board, int Boob_C, int Max_Column_S
                 Board[i][j] += 20;
                 Flag_Left--;
             }
-
 
         }
 
@@ -972,10 +1014,14 @@ void Play_Game(struct Player* User, int Size_Board, int Boob_C, int Max_Column_S
 
         }
     
+
         Print_Game(Board, User, Size_Board, Boob_C, loss, Flag_Left, 0);
 
+
         if (loss) break;
-    }
+        
+
+    } // main while end
 
 
     if (loss) {
