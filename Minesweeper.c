@@ -1112,47 +1112,51 @@ int Board_Zero_Open(int** Board, int Size_Board, int x, int y, int Space_B) {
 
 void Admin_Panel_Login(struct Player* Admin, struct Player* Users) { 
 
-    Bar_Status(Admin, 2);
-    printf("Enter Admin PassWord (Ctrl+C ~ Back): ");
 
-    //* Hack :)
-    int Pass[4] = {Admin->Loss, Admin->Win, Admin->Cur_Streak, Admin->Win_Streak};
-    int Pass_In[4];
-    int NOT_Login = 0;
+    while(1) {
 
-    for (int i=0; i<4; i++) {
+        Bar_Status(Admin, 2);
+        printf("Enter Admin PassWord (Ctrl+C ~ Back): ");
 
-        int x = getch();
+        //* Hack :)
+        int Pass[4] = {Admin->Loss, Admin->Win, Admin->Cur_Streak, Admin->Win_Streak};
+        int Pass_In[4];
+        int NOT_Login = 0;
 
-        // exit code Ctrl + C
-        if (i == 0 && x == 3) {
-            printf("Exit.\n");
-            Sleep(1500);
-            RUN_CLS;
-            return;
+        for (int i=0; i<4; i++) {
+
+            int x = getch();
+
+            // exit code Ctrl + C
+            if (x == 3) {
+                printf("%sExit.%s\n", Color_Yellow, Color_Reset);
+                Sleep(1500);
+                RUN_CLS;
+                return;
+            }
+
+            Pass_In[i] = x;
+
+            printf("%s* %s", Color_Gray, Color_Reset);
+
+            if(Pass[i] != Pass_In[i]) NOT_Login = 1;
+
         }
 
-        Pass_In[i] = x;
-
-        printf("%s* %s", Color_Gray, Color_Reset);
-
-        if(Pass[i] != Pass_In[i]) NOT_Login = 1;
-
-    }
-
-    if (NOT_Login) {
-        printf("%sPassword is Wrong.%s\n", Color_Red, Color_Reset);
-        Sleep(500);
-        Admin_Panel_Login(Admin, Users);
+        if (NOT_Login) {
+            printf("%sPassword is Wrong.%s\n", Color_Red, Color_Reset);
+            Sleep(500);
+            continue;
+        }
+        
+        printf("%sLogin was Successful.%s\n", Color_Green, Color_Reset);
+        Sleep(1000);
+        
+        Admin_Panel(Admin, Users);
         return;
+
     }
-    
-    printf("%sLogin was Successful.%s\n", Color_Green, Color_Reset);
-    Sleep(1000);
 
-    Admin_Panel(Admin, Users);
-
-    return;
 }
 
 
