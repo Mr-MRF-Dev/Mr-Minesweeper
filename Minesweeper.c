@@ -1163,255 +1163,282 @@ void Admin_Panel_Login(struct Player* Admin, struct Player* Users) {
 
 void Admin_Panel(struct Player* Admin, struct Player* Users) {
 
-    Bar_Status(Admin, 2);
-    printf("Admin Panel:\n\n");
-    printf("    %s1 %s> %sAll Player Info\n", Color_Yellow, Color_Aqua, Color_Reset);
-    printf("    %s2 %s> %sChange PassWord\n", Color_Yellow, Color_Aqua, Color_Reset);
-    printf("    %s3 %s> %sDelete Player\n", Color_Yellow, Color_Aqua, Color_Reset);
-    printf("    %s4 %s> %sEdit Player Info\n", Color_Yellow, Color_Aqua, Color_Reset);
-    printf("    %s5 %s> %sLogout\n", Color_Yellow, Color_Aqua, Color_Reset);
-    printf("    %s6 %s> %sExit\n", Color_Yellow, Color_Aqua, Color_Reset);
+    while(1) {
 
-    Sleep(500);
+        Bar_Status(Admin, 2);
+        printf("Admin Panel:\n\n");
+        printf("    %s1 %s> %sAll Player Info\n", Color_Yellow, Color_Aqua, Color_Reset);
+        printf("    %s2 %s> %sChange PassWord\n", Color_Yellow, Color_Aqua, Color_Reset);
+        printf("    %s3 %s> %sDelete Player\n", Color_Yellow, Color_Aqua, Color_Reset);
+        printf("    %s4 %s> %sEdit Player Info\n", Color_Yellow, Color_Aqua, Color_Reset);
+        printf("    %s5 %s> %sLogout\n", Color_Yellow, Color_Aqua, Color_Reset);
+        printf("    %s6 %s> %sExit\n", Color_Yellow, Color_Aqua, Color_Reset);
 
-    Bar_Status(Admin, 2);
-    printf("Select one More: ");
+        Sleep(500);
 
-    int in_code = User_Input_Number_Range(1, 6);
+        Bar_Status(Admin, 2);
+        printf("Select one More: ");
 
-    switch ( in_code ) {
+        int in_code = User_Input_Number_Range(1, 6);
 
-        // ctrl + c exit code 
-        case -2:
-            printf("%sExit.%s", Color_Red, Color_Reset);
-            Sleep(3000);
-            exit(0);
-            break;
+        switch ( in_code ) {
 
-        case 1:
-            printf("\n     %sID | UserName | Win | Loss | Current Streak | Winning Streak%s\n", Color_Gray, Color_Reset);
-
-            for (int i = 0; i<Users_Counter; i++) {
-
-                printf("    ");
-                printf("%s %2d %s", Color_Yellow, Users[i].id, Color_Reset);
-                printf("%s|%s", Color_Gray, Color_Reset);
-                printf("%s %8s %s", Color_Blue, Users[i].Username, Color_Reset);
-                printf("%s|%s", Color_Gray, Color_Reset);
-                printf("%s %3d %s", Color_Green, (i!=0)?(Users[i].Win):(0), Color_Reset);
-                printf("%s|%s", Color_Gray, Color_Reset);
-                printf("%s %4d %s", Color_Red, (i!=0)?(Users[i].Loss):(0), Color_Reset);
-                printf("%s|%s", Color_Gray, Color_Reset);
-                printf("%s %14d %s", Color_Yellow, (i!=0)?(Users[i].Cur_Streak):(0), Color_Reset);
-                printf("%s|%s", Color_Gray, Color_Reset);
-                printf("%s %14d %s\n", Color_Yellow, (i!=0)?(Users[i].Win_Streak):(0), Color_Reset);
-            
-            }
-
-            break;
-
-        case 2:
-            int Pass_In[4];
-            int Exit_Code = 0;
-            Bar_Status(Admin, 2);
-            printf("Enter New PassWord (Ctrl+C ~ Back): ");
-
-            for (int i=0; i<4; i++) {
-
-                int x = getch();
-
-                // exit code Ctrl + C
-                if (x == 3) {
-                    printf("%sBack.%s\n", Color_Yellow, Color_Reset);
-                    Exit_Code = 1;
-                    Sleep(500);
-                    break;
-                }
-
-                Pass_In[i] = x;
-
-                printf("%s* %s", Color_Gray, Color_Reset);
-
-            }
-
-            if(Exit_Code) break;
-
-            printf("\n");
-
-            // if Confirm PassWord is Wrong back here.
-            GOTO_ConfirmPassWord:
-
-            int Pass_In_Con[4];
-            int Flag=0;
-            Bar_Status(Admin, 2);
-            printf("Confirm New PassWord (Ctrl+C ~ Back): ");
-
-            for (int i=0; i<4; i++) {
-
-                int x = getch();
-
-                // exit code Ctrl + C
-                if (x == 3) {
-                    printf("%sBack.%s\n", Color_Yellow, Color_Reset);
-                    Exit_Code = 1;
-                    Sleep(500);
-                    break;
-                }
-
-                Pass_In_Con[i] = x;
-                
-                // PassWord is Wrong.
-                if (Pass_In[i] != Pass_In_Con[i]) Flag = 1;
-                
-                printf("%s* %s", Color_Gray, Color_Reset);
-
-            }
-
-            if (Exit_Code) break;
-
-            if (Flag) {
-                printf("%sPassWord Don't Match.%s\n", Color_Red, Color_Reset);
-                Sleep(500);
-                goto GOTO_ConfirmPassWord;
-            }
-
-            Admin->Loss = Pass_In[0];
-            Admin->Win = Pass_In[1];
-            Admin->Cur_Streak = Pass_In[2];
-            Admin->Win_Streak = Pass_In[3];
-
-            printf("%sPassWord Change.%s\n", Color_Green, Color_Reset);
-            Sleep(500);
-            break;
-
-        case 3:
-
-            GOTO_GetUserID:
-
-            Bar_Status(Admin, 2);
-            printf("Enter A User ID (0 ~ %d) (Ctrl+C ~ Back): ", Users_Counter-1);
-
-            int del_in = User_Input_Number_Range(0, Users_Counter-1);
-
-            if (del_in == -1) goto GOTO_GetUserID;
-
-            else if (del_in == -2) {
-                printf("%sBack. \n%s", Color_Yellow, Color_Reset);
+            // ctrl + c exit code 
+            case -2:
+                printf("%sExit.%s", Color_Red, Color_Reset);
+                Sleep(3000);
+                exit(0);
                 break;
-            }
 
-            else if (del_in == 0) {
-                Error_Management(30);
-                break;
-            }
-
-            Delete_Player(del_in, Users);
-
-            Bar_Status(Admin, 2);
-            printf("The User With ID %d was Deleted.\n", del_in);
-            Sleep(500);
-            break;
-
-        case 4:
-            
-            // get id user to edit
-            GOTO_GetUserID_Edit:
-            
-            Bar_Status(Admin, 2);
-            printf("Enter A User ID (0 ~ %d) (Ctrl+C ~ Back): ", Users_Counter-1);
-
-            int id_edit_in = User_Input_Number_Range(0, Users_Counter-1);
-            
-            if (id_edit_in == -1) goto GOTO_GetUserID_Edit;
-
-            else if (id_edit_in == -2) {
-                printf("%sBack. \n%s", Color_Yellow, Color_Reset);
-                break;
-            }
-
-            else if (id_edit_in == 0) {
-                Error_Management(31);
-                break;
-            }
-
-
-            // get itme user to edit
-            GOTO_GetUserID_InputSelect:
-
-            Bar_Status(Admin, 2);
-            printf("Edit (Win ~ 1)(Loss ~ 2)(Cur Streak ~ 3)(Win Streak ~ 4).\n");
-
-            Bar_Status(Admin, 2);
-            printf("Select one More (Ctrl+C ~ Back): ");
-
-            int edit_in = User_Input_Number_Range(1, 4);
-            
-            if (edit_in == -1) goto GOTO_GetUserID_InputSelect;
-
-            else if (edit_in == -2) {
-                printf("%sBack. \n%s", Color_Yellow, Color_Reset);
-                break;
-            }
-
-
-            // get value of itme to edit
-            GOTO_GetUserID_InputValue:
-
-            Bar_Status(Admin, 2);
-            printf("Specify its Value (0 ~ 999) (Ctrl+C ~ Back): ");
-
-            int edit_value_in = User_Input_Number_Range(0, 999);
-            
-            if (edit_value_in == -1) goto GOTO_GetUserID_InputValue;
-
-            else if (edit_value_in == -2) {
-                printf("%sBack. \n%s", Color_Yellow, Color_Reset);
-                break;
-            }
-
-
-            // edit info 
-            switch (edit_in) {
             case 1:
-                Users[id_edit_in].Win = edit_value_in;
+                printf("\n     %sID | UserName | Win | Loss | Current Streak | Winning Streak%s\n", Color_Gray, Color_Reset);
+
+                for (int i = 0; i<Users_Counter; i++) {
+
+                    printf("    ");
+                    printf("%s %2d %s", Color_Yellow, Users[i].id, Color_Reset);
+                    printf("%s|%s", Color_Gray, Color_Reset);
+                    printf("%s %8s %s", Color_Blue, Users[i].Username, Color_Reset);
+                    printf("%s|%s", Color_Gray, Color_Reset);
+                    printf("%s %3d %s", Color_Green, (i!=0)?(Users[i].Win):(0), Color_Reset);
+                    printf("%s|%s", Color_Gray, Color_Reset);
+                    printf("%s %4d %s", Color_Red, (i!=0)?(Users[i].Loss):(0), Color_Reset);
+                    printf("%s|%s", Color_Gray, Color_Reset);
+                    printf("%s %14d %s", Color_Yellow, (i!=0)?(Users[i].Cur_Streak):(0), Color_Reset);
+                    printf("%s|%s", Color_Gray, Color_Reset);
+                    printf("%s %14d %s\n", Color_Yellow, (i!=0)?(Users[i].Win_Streak):(0), Color_Reset);
+                
+                }
+
                 break;
+
             case 2:
-                Users[id_edit_in].Loss = edit_value_in;
+                int Pass_In[4];
+                int Exit_Code = 0;
+                Bar_Status(Admin, 2);
+                printf("Enter New PassWord (Ctrl+C ~ Back): ");
+
+                for (int i=0; i<4; i++) {
+
+                    int x = getch();
+
+                    // exit code Ctrl + C
+                    if (x == 3) {
+                        printf("%sBack.%s\n", Color_Yellow, Color_Reset);
+                        Exit_Code = 1;
+                        Sleep(500);
+                        break;
+                    }
+
+                    Pass_In[i] = x;
+
+                    printf("%s* %s", Color_Gray, Color_Reset);
+
+                }
+
+                if(Exit_Code) break;
+
+                printf("\n");
+
+                // if Confirm PassWord is Wrong back here.
+                while (1) {
+
+                    int Pass_In_Con[4];
+                    int Flag=0;
+                    Bar_Status(Admin, 2);
+                    printf("Confirm New PassWord (Ctrl+C ~ Back): ");
+
+                    for (int i=0; i<4; i++) {
+
+                        int x = getch();
+
+                        // exit code Ctrl + C
+                        if (x == 3) {
+                            printf("%sBack.%s\n", Color_Yellow, Color_Reset);
+                            Exit_Code = 1;
+                            Sleep(500);
+                            break;
+                        }
+
+                        Pass_In_Con[i] = x;
+                        
+                        // PassWord is Wrong.
+                        if (Pass_In[i] != Pass_In_Con[i]) Flag = 1;
+                        
+                        printf("%s* %s", Color_Gray, Color_Reset);
+
+                    }
+
+                    if (Exit_Code) break;
+
+                    if (Flag) {
+                        printf("%sPassWord Don't Match.%s\n", Color_Red, Color_Reset);
+                        Sleep(500);
+                        continue;
+                    }
+
+                    break;
+
+                }
+
+                if (Exit_Code) break;
+
+                Admin->Loss = Pass_In[0];
+                Admin->Win = Pass_In[1];
+                Admin->Cur_Streak = Pass_In[2];
+                Admin->Win_Streak = Pass_In[3];
+
+                printf("%sPassWord Change.%s\n", Color_Green, Color_Reset);
+                Sleep(500);
                 break;
+
             case 3:
-                Users[id_edit_in].Cur_Streak = edit_value_in;
+
+                int del_in;
+
+                while(1) {
+
+                    Bar_Status(Admin, 2);
+                    printf("Enter A User ID (0 ~ %d) (Ctrl+C ~ Back): ", Users_Counter-1);
+
+                    del_in = User_Input_Number_Range(0, Users_Counter-1);
+
+                    if (del_in == -1) continue;
+
+                    break;
+
+                }
+
+                if (del_in == -2) {
+                    printf("%sBack. \n%s", Color_Yellow, Color_Reset);
+                    break;
+                }
+
+                else if (del_in == 0) {
+                    Error_Management(30);
+                    break;
+                }
+
+                Delete_Player(del_in, Users);
+
+                Bar_Status(Admin, 2);
+                printf("The User With ID %d was Deleted.\n", del_in);
+                Sleep(500);
                 break;
+
             case 4:
-                Users[id_edit_in].Win_Streak = edit_value_in;
+                
+                int id_edit_in;
+                // get id user to edit
+                while(1) {
+                
+                    Bar_Status(Admin, 2);
+                    printf("Enter A User ID (0 ~ %d) (Ctrl+C ~ Back): ", Users_Counter-1);
+
+                    id_edit_in = User_Input_Number_Range(0, Users_Counter-1);
+                    
+                    if (id_edit_in == -1) continue;
+
+                    break;
+                
+                }
+
+                if (id_edit_in == -2) {
+                    printf("%sBack. \n%s", Color_Yellow, Color_Reset);
+                    break;
+                }
+
+                else if (id_edit_in == 0) {
+                    Error_Management(31);
+                    break;
+                }
+
+                int edit_in;
+                // get itme user to edit
+                while(1) {
+
+                    Bar_Status(Admin, 2);
+                    printf("Edit (Win ~ 1)(Loss ~ 2)(Cur Streak ~ 3)(Win Streak ~ 4).\n");
+
+                    Bar_Status(Admin, 2);
+                    printf("Select one More (Ctrl+C ~ Back): ");
+
+                    edit_in = User_Input_Number_Range(1, 4);
+                    
+                    if (edit_in == -1) continue;
+
+                    break;
+
+                }
+
+                if (edit_in == -2) {
+                    printf("%sBack. \n%s", Color_Yellow, Color_Reset);
+                    break;
+                }
+
+                int edit_value_in;
+                // get value of itme to edit
+                while (1) {
+
+                    Bar_Status(Admin, 2);
+                    printf("Specify its Value (0 ~ 999) (Ctrl+C ~ Back): ");
+
+                    edit_value_in = User_Input_Number_Range(0, 999);
+                    
+                    if (edit_value_in == -1) continue;
+
+                    break;
+
+                }
+
+                if (edit_value_in == -2) {
+                    printf("%sBack. \n%s", Color_Yellow, Color_Reset);
+                    break;
+                }
+
+
+                // edit info 
+                switch (edit_in) {
+                case 1:
+                    Users[id_edit_in].Win = edit_value_in;
+                    break;
+                case 2:
+                    Users[id_edit_in].Loss = edit_value_in;
+                    break;
+                case 3:
+                    Users[id_edit_in].Cur_Streak = edit_value_in;
+                    break;
+                case 4:
+                    Users[id_edit_in].Win_Streak = edit_value_in;
+                    break;
+                }
+
+
+                // done 
+                Bar_Status(Admin, 2);
+                printf("Editing was done Successfully :)\n");
+                Sleep(500);
+                
                 break;
-            }
 
+            case 5:
+                Bar_Status(Admin, 2);
+                printf("logout Successful.\n");
+                Sleep(1500);
+                RUN_CLS;
+                return;
+                break;
 
-            // done 
-            Bar_Status(Admin, 2);
-            printf("Editing was done Successfully :)\n");
-            Sleep(500);
-            
-            break;
+            case 6:
+                Bar_Status(Admin, 2);
+                printf("%sExit%s :) %sBye Bye.\n",Color_Red, Color_Yellow, Color_Reset);
+                Sleep(3000);
+                exit(0);
+                return;
+                break;
+        }
 
-        case 5:
-            Bar_Status(Admin, 2);
-            printf("logout Successful.\n");
-            Sleep(1500);
-            RUN_CLS;
-            return;
-            break;
-
-        case 6:
-            Bar_Status(Admin, 2);
-            printf("%sExit%s :) %sBye Bye.\n",Color_Red, Color_Yellow, Color_Reset);
-            Sleep(3000);
-            exit(0);
-            return;
-            break;
     }
-
-    Admin_Panel(Admin, Users);
 
 }
 
