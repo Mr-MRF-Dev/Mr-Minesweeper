@@ -15,39 +15,39 @@ A Simple Terminal Game developed with the C Programming Language.
 
 To get started with the game, follow these steps:
 
-### 1. Clone the Repository
+1. Clone the Repository
 
-If You Have [Git](https://git-scm.com/) installed:
+    If You Have [Git](https://git-scm.com/) installed:
 
-```bash
-git clone https://github.com/Mr-MRF-Dev/Mr-Minesweeper.git
-```
+    ```bash
+    git clone https://github.com/Mr-MRF-Dev/Mr-Minesweeper.git
+    ```
 
-If You Have [Github CLI](https://cli.github.com/) installed:
+    If You Have [Github CLI](https://cli.github.com/) installed:
 
-```bash
-gh repo clone Mr-MRF-Dev/Mr-Minesweeper
-```
+    ```bash
+    gh repo clone Mr-MRF-Dev/Mr-Minesweeper
+    ```
 
-### 2. Navigate to the Project Directory
+2. Navigate to the Project Directory
 
-```bash
-cd ./Mr-Minesweeper
-```
+    ```bash
+    cd ./Mr-Minesweeper
+    ```
 
-### 3. Compile
+3. Compile
 
-Compile the game using a C compiler. For example, using GCC:
+    Compile the game using a C compiler. For example, using GCC:
 
-```bash
-gcc .\Minesweeper.c -o Minesweeper
-```
+    ```bash
+    gcc .\Minesweeper.c -o Minesweeper
+    ```
 
-### 4. Run
+4. Run
 
-```bash
-./Minesweeper.exe
-```
+    ```bash
+    ./Minesweeper.exe
+    ```
 
 ## Features
 
