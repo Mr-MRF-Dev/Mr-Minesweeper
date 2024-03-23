@@ -1,8 +1,10 @@
-# Mr Minesweeper
+# 🧨 Mr Minesweeper
 
 Play the classic Minesweeper game in the terminal and **enjoy** :)
 
 A Simple Terminal Game developed with the C Programming Language.
+
+![Screenshot](/images/screenshot.jpg)
 
 > Note: This project uses `windows.h` header file,
 > which is specific to Windows systems and may not work on
@@ -11,7 +13,7 @@ A Simple Terminal Game developed with the C Programming Language.
 > I recommend using [Windows Terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701)
 > for the best experience.
 
-## Getting Started
+## 📥 Getting Started
 
 To get started with the game, follow these steps:
 
@@ -49,13 +51,19 @@ To get started with the game, follow these steps:
     ./Minesweeper.exe
     ```
 
-## Features
+## ✨️ Features
 
 - Admin Panel: Gain access to the admin panel to perform administrative tasks.
 - Prevent Wrong Inputs: The game prevents invalid inputs to ensure smooth gameplay.
 - Custom Board: Customize the board size and mine count to adjust the difficulty level.
 - Etc: Additional features provide an enhanced gaming experience.
 
-## License
+## 🤝 Contributing
+
+we welcome any contributions you may have. If you're interested in helping out, fork the repository
+and create an [Issue](https://github.com/Mr-MRF-Dev/Mr-Minesweeper/issues) and
+[PR](https://github.com/Mr-MRF-Dev/Mr-Minesweeper/pulls).
+
+## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](/LICENSE) file for details.
