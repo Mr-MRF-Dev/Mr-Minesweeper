@@ -4,6 +4,8 @@ Play the classic Minesweeper game in the terminal and **enjoy** :)
 
 A Simple Terminal Game developed with the C Programming Language.
 
+![scrennshot](/images/scrennshot.jpg)
+
 > Note: This project uses `windows.h` header file,
 > which is specific to Windows systems and may not work on
 > Linux and Mac. Contributions to make it compatible with other platforms are welcome.
