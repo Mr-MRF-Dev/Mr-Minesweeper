@@ -32,7 +32,7 @@ To get started with the game, follow these steps:
 2. Navigate to the Project Directory
 
     ```bash
-    cd ./Mr-Minesweeper
+    cd ./Mr-Minesweeper/src
     ```
 
 3. Compile
