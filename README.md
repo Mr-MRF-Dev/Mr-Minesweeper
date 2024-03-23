@@ -58,6 +58,12 @@ To get started with the game, follow these steps:
 - Custom Board: Customize the board size and mine count to adjust the difficulty level.
 - Etc: Additional features provide an enhanced gaming experience.
 
+## Contributing
+
+we welcome any contributions you may have. If you're interested in helping out, fork the repository
+and create an [Issue](https://github.com/Mr-MRF-Dev/Mr-Minesweeper/issues) and
+[PR](https://github.com/Mr-MRF-Dev/Mr-Minesweeper/pulls).
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](/LICENSE) file for details.
