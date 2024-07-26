@@ -1,8 +1,6 @@
 # 🧨 Mr Minesweeper
 
-Play the classic Minesweeper game in the terminal and **enjoy** :)
-
-A Simple Terminal Game developed with the C Programming Language.
+Play the classic Minesweeper game in the terminal and have a great time! This is a simple terminal game developed with the C programming language.
 
 ![Screenshot](/images/screenshot.jpg)
 
