@@ -656,16 +656,20 @@ void Print_Char_Color_Board(int num, int len_level) {
     //?* _O_U8TEXT == 0x00040000
 
     switch (num) {
-        case -3: // bad flag        
+        case -3: // bad flag
+            printf("%s", Color_Red_Dark);
             _setmode(_fileno(stdout), 0x00040000);
-            wprintf(L" %s\u2715%s ", Color_Red_Dark, Color_Reset);
+            wprintf(L" \u2715 ");
             _setmode(_fileno(stdout), _O_TEXT);
+            printf("%s", Color_Reset);
             break;
 
         case -2: // flag 
+            printf("%s", Color_Deep_Pink);
             _setmode(_fileno(stdout), 0x00040000);
-            wprintf(L" %s\u2660%s ", Color_Deep_Pink, Color_Reset);
+            wprintf(L" \u2660 ");
             _setmode(_fileno(stdout), _O_TEXT);
+            printf("%s", Color_Reset);
             break;
 
         case -1: // closed board
@@ -712,18 +716,18 @@ void Print_Char_Color_Board(int num, int len_level) {
 
         case 9:
             // Boob
+            // random color :)
+            srand(time(NULL));
+
+            printf("\033[38;2;%d;%d;%dm", rand() % 256, rand() % 256,
+                   rand() % 256);
             _setmode(_fileno(stdout), 0x00040000);
 
-            // random color :)
             
-            srand(time(NULL));
-            int color1 = rand() % 256;
-            int color2 = rand() % 256;
-            int color3 = rand() % 256;
-           
-            wprintf(L" \033[38;2;%d;%d;%dm\u01A0%s ", color1, color2, color3, Color_Reset);
+            wprintf(L" \u01A0 ");
            
             _setmode(_fileno(stdout), _O_TEXT);
+            printf("%s", Color_Reset);
             break;
 
 
