@@ -34,6 +34,7 @@ struct Player {
     int Win_Streak;
 };
 
+#define CHUNK_SIZE 10
 
 //* functions
 void Print_Player_Info(struct Player* in);
@@ -81,8 +82,8 @@ int main() {
     printf("%s(-: %sWelcome To %sMr Minesweeper%s :-)%s\n", Color_Yellow, Color_Green, Color_Red, Color_Yellow, Color_Reset);
     
     //* list of player :/
-    struct Player* Users = (struct Player*)malloc(101 * sizeof(struct Player));
-    int Users_Size = 101;
+    struct Player* Users = (struct Player*)malloc(CHUNK_SIZE * sizeof(struct Player));
+    int Users_Size = CHUNK_SIZE;
 
 
     // Admin Account Info
@@ -163,6 +164,22 @@ int main() {
         // New User :)
         if (flag_login == 0) {
 
+            if (Users_Counter == Users_Size) {
+                struct Player *temp = realloc(Users, (Users_Size + CHUNK_SIZE) * sizeof(struct Player));
+                if (temp == NULL) {
+                    free(Users);
+                    Bar_Status(Userptr, 0);
+                    printf("Memory Allocation failed, try again\n");
+                    Sleep(3000);
+                    continue;
+                    // exit(EXIT_FAILURE);
+                }
+                else { 
+                    Users_Size += CHUNK_SIZE;
+                    Users = temp;            
+                }
+            }
+            
             strcpy(Userptr->Username, User_Input);
             Userptr->id = Users_Counter;
             Userptr->Loss = 0;
@@ -172,12 +189,6 @@ int main() {
 
             Users_Counter++;
 
-            if (Users_Counter == Users_Size) {
-                Users_Size += 100;
-                Users = (struct Player*)realloc(Users, Users_Size * sizeof(struct Player));
-            
-            }
-        
         }
 
 
