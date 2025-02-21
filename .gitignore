@@ -1,3 +1,13 @@
-
+# config folders
 .vscode
+
+# exe files
 *.exe
+
+# CMake files
+build/
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+install_manifest.txt
