@@ -90,7 +90,7 @@ int Len_Number(int num);
 //* cls Command
 int run_cls = 1;
 #define RUN_CLS \
-    if (run_cls) system("cls")
+    if (run_cls) system(CLEAR_SCREEN)
 
 int Users_Counter = 1;
 
@@ -598,7 +598,7 @@ void Print_Game(int** Board, struct Player* User, int Size_Board, int Boob_C,
         printf("%d ", i + 1);
     }
 
-    printf("|%s\n", Color_Gray, Color_Reset);
+    printf("|%s\n", Color_Reset);
     //** bar number end:')
 
     // board :')
@@ -680,24 +680,36 @@ void Print_Char_Color_Board(int num, int len_level) {
     switch (num) {
         case -3:  // bad flag
             printf("%s", Color_Red_Dark);
+#ifdef _WIN32
             _setmode(_fileno(stdout), 0x00040000);
             wprintf(L" \u2715 ");
             _setmode(_fileno(stdout), _O_TEXT);
+#else
+            printf(" \u2715 ");
+#endif
             printf("%s", Color_Reset);
             break;
 
         case -2:  // flag
             printf("%s", Color_Deep_Pink);
+#ifdef _WIN32
             _setmode(_fileno(stdout), 0x00040000);
             wprintf(L" \u2660 ");
             _setmode(_fileno(stdout), _O_TEXT);
+#else
+            printf(" \u2660 ");
+#endif
             printf("%s", Color_Reset);
             break;
 
         case -1:  // closed board
+#ifdef _WIN32
             _setmode(_fileno(stdout), 0x00040000);
             wprintf(L" \u2665 ");
             _setmode(_fileno(stdout), _O_TEXT);
+#else
+            printf(" \u2665 ");
+#endif
             break;
 
         case 0:
@@ -743,11 +755,13 @@ void Print_Char_Color_Board(int num, int len_level) {
 
             printf("\033[38;2;%d;%d;%dm", rand() % 256, rand() % 256,
                    rand() % 256);
+#ifdef _WIN32
             _setmode(_fileno(stdout), 0x00040000);
-
             wprintf(L" \u01A0 ");
-
             _setmode(_fileno(stdout), _O_TEXT);
+#else
+            printf(" \u01A0 ");
+#endif
             printf("%s", Color_Reset);
             break;
     }
