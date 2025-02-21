@@ -202,6 +202,7 @@ int main() {
                 } else {
                     Users_Size += CHUNK_SIZE;
                     Users = temp;
+                    Userptr = &Users[Users_Counter];
                 }
             }
 
@@ -1349,7 +1350,7 @@ void Admin_Panel(struct Player* Admin, struct Player* Users) {
                 }
 
                 int edit_in;
-                // get itme user to edit
+                // get item user to edit
                 while (1) {
 
                     Bar_Status(Admin, 2);
@@ -1373,7 +1374,7 @@ void Admin_Panel(struct Player* Admin, struct Player* Users) {
                 }
 
                 int edit_value_in;
-                // get value of itme to edit
+                // get value of item to edit
                 while (1) {
 
                     Bar_Status(Admin, 2);
