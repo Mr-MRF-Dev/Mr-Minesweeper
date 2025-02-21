@@ -682,10 +682,10 @@ void Print_Char_Color_Board(int num, int len_level) {
             printf("%s", Color_Red_Dark);
 #ifdef _WIN32
             _setmode(_fileno(stdout), 0x00040000);
-            wprintf(L" \u2715 ");
+            wprintf(L" \u00D7 ");
             _setmode(_fileno(stdout), _O_TEXT);
 #else
-            printf(" \u2715 ");
+            printf(" \u00D7 ");
 #endif
             printf("%s", Color_Reset);
             break;
@@ -694,10 +694,10 @@ void Print_Char_Color_Board(int num, int len_level) {
             printf("%s", Color_Deep_Pink);
 #ifdef _WIN32
             _setmode(_fileno(stdout), 0x00040000);
-            wprintf(L" \u2660 ");
+            wprintf(L" \u2691 ");
             _setmode(_fileno(stdout), _O_TEXT);
 #else
-            printf(" \u2660 ");
+            printf(" \u2691 ");
 #endif
             printf("%s", Color_Reset);
             break;
@@ -705,10 +705,10 @@ void Print_Char_Color_Board(int num, int len_level) {
         case -1:  // closed board
 #ifdef _WIN32
             _setmode(_fileno(stdout), 0x00040000);
-            wprintf(L" \u2665 ");
+            wprintf(L" \u2BD1 ");
             _setmode(_fileno(stdout), _O_TEXT);
 #else
-            printf(" \u2665 ");
+            printf(" \u2BD1 ");
 #endif
             break;
 
