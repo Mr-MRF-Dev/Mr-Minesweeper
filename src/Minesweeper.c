@@ -7,13 +7,13 @@
 #include <time.h>
 
 #ifdef _WIN32
-#include <conio.h>
-#include <windows.h>
-#define CLEAR_SCREEN "cls"
+    #include <conio.h>
+    #include <windows.h>
+    #define CLEAR_SCREEN "cls"
 #else
-#include <unistd.h>
-#include <termios.h>
-#define CLEAR_SCREEN "clear"
+    #include <termios.h>
+    #include <unistd.h>
+    #define CLEAR_SCREEN "clear"
 
 int getch(void) {
     struct termios oldattr, newattr;
@@ -27,9 +27,7 @@ int getch(void) {
     return ch;
 }
 
-void Sleep(int milliseconds) {
-    usleep(milliseconds * 1000);
-}
+void Sleep(int milliseconds) { usleep(milliseconds * 1000); }
 
 void Beep(int frequency, int duration) {
     // No cross-platform equivalent for Beep, so this is a no-op
@@ -137,7 +135,11 @@ int main() {
             Bar_Status(Userptr, 0);
             printf("Enter your Username (/ ~ Exit): ");
 
-            gets(User_Input);
+            // gets(User_Input);
+            fgets(User_Input, sizeof(User_Input), stdin);
+            User_Input[strcspn(User_Input, "\n")] =
+                0;  // Remove newline character
+
             fflush(stdin);
 
             // exit
@@ -245,7 +247,9 @@ void Change_Player_UserName(struct Player* User, struct Player* Users) {
         Bar_Status(User, 1);
         printf("Enter Your New UserName (/ ~ Back): ");
 
-        gets(in_n_user);
+        // gets(in_n_user);
+        fgets(in_n_user, sizeof(in_n_user), stdin);
+        in_n_user[strcspn(in_n_user, "\n")] = 0;  // Remove newline character
 
         if (strcmp(in_n_user, "/") == 0) {
             Bar_Status(User, 1);
@@ -911,7 +915,7 @@ void Play_Game(struct Player* User, int Size_Board, int Boob_C,
 
         while (1) {
             Bar_Status(User, 1);
-            printf("Plz Enter R ~ L: ");
+            printf("Plz Enter R (flag) ~ L (reveal): ");
 
             in_c = getch();
             printf("%c\n", in_c);
