@@ -1,6 +1,8 @@
 # 🧨 Mr Minesweeper
 
+![GitHub repo size](https://img.shields.io/github/repo-size/mr-mrf-dev/Mr-Minesweeper)
 [![CMake on multiple platforms](https://github.com/Mr-MRF-Dev/Mr-Minesweeper/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/Mr-MRF-Dev/Mr-Minesweeper/actions/workflows/cmake-multi-platform.yml)
+[![GitHub License](https://img.shields.io/github/license/mr-mrf-dev/mr-minesweeper)](/LICENSE)
 
 Play the classic Minesweeper game in the terminal and have a great time! This is a simple terminal game developed with the C programming language.
 
@@ -50,7 +52,7 @@ To get started with the game, follow these steps:
 ## ✨️ Features
 
 - Admin Panel: Gain access to the admin panel to perform administrative tasks.
-- Prevent Wrong Inputs: The game prevents invalid inputs to ensure smooth gameplay.
+- Prevent Wrong Inputs: The game prevents invalid inputs to ensure smooth game play.
 - Custom Board: Customize the board size and mine count to adjust the difficulty level.
 - Etc: Additional features provide an enhanced gaming experience.
 
