@@ -1,4 +1,3 @@
-#include <conio.h>
 #include <fcntl.h>
 #include <io.h>
 #include <math.h>
@@ -6,7 +5,36 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+
+#ifdef _WIN32
+#include <conio.h>
 #include <windows.h>
+#define CLEAR_SCREEN "cls"
+#else
+#include <unistd.h>
+#include <termios.h>
+#define CLEAR_SCREEN "clear"
+
+int getch(void) {
+    struct termios oldattr, newattr;
+    int ch;
+    tcgetattr(STDIN_FILENO, &oldattr);
+    newattr = oldattr;
+    newattr.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newattr);
+    ch = getchar();
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldattr);
+    return ch;
+}
+
+void Sleep(int milliseconds) {
+    usleep(milliseconds * 1000);
+}
+
+void Beep(int frequency, int duration) {
+    // No cross-platform equivalent for Beep, so this is a no-op
+}
+#endif
 
 //* Colors
 #define Color_Reset "\033[0m"
