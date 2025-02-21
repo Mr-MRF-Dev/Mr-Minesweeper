@@ -1,5 +1,7 @@
 #include <fcntl.h>
-#include <io.h>
+#ifdef _WIN32
+    #include <io.h>
+#endif
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>

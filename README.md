@@ -1,5 +1,7 @@
 # 🧨 Mr Minesweeper
 
+[![CMake on multiple platforms](https://github.com/Mr-MRF-Dev/Mr-Minesweeper/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/Mr-MRF-Dev/Mr-Minesweeper/actions/workflows/cmake-multi-platform.yml)
+
 Play the classic Minesweeper game in the terminal and have a great time! This is a simple terminal game developed with the C programming language.
 
 ![Screenshot](/images/screenshot.jpg)
