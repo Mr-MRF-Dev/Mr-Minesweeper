@@ -49,6 +49,43 @@ To get started with the game, follow these steps:
     ./Minesweeper.exe
     ```
 
+### Compile with CMake
+
+after cloning the repository, you can compile the game using [CMake](https://cmake.org/download/):
+
+1. Navigate to the Project Directory
+
+    ```bash
+    cd ./Mr-Minesweeper
+    ```
+
+2. Create a build directory
+
+   ```bash
+   mkdir build
+   cd build
+   ```
+
+3. Build the project using the following commands:
+
+    ```bash
+    cmake ..
+    make
+    ```
+
+    Or use [MinGW MakeFiles](https://cmake.org/cmake/help/latest/generator/MinGW%20Makefiles.html) by running: (Windows)
+
+    ```bash
+    cmake .. -G "MinGW Makefiles"
+    mingw32-make
+    ```
+
+4. Run Project!
+
+    ```bash
+    ./Minesweeper.exe
+    ```
+
 ## ✨️ Features
 
 - Admin Panel: Gain access to the admin panel to perform administrative tasks.
