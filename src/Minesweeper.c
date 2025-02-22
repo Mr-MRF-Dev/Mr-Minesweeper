@@ -149,7 +149,7 @@ int main() {
                 Bar_Status(Userptr, 0);
                 printf("%sExit%s :) %sBye Bye.\n", Color_Red, Color_Yellow,
                        Color_Reset);
-                Sleep(3000);
+                Sleep(1000);
                 exit(0);
             }
 
@@ -367,7 +367,7 @@ void Main_Menu(struct Player* User, struct Player* Users) {
             // ctrl + c exit code
             case -2:
                 printf("%sExit.%s", Color_Red, Color_Reset);
-                Sleep(3000);
+                Sleep(1000);
                 exit(0);
                 break;
 
@@ -421,7 +421,7 @@ void Main_Menu(struct Player* User, struct Player* Users) {
                 Bar_Status(User, 1);
                 printf("%sExit%s :) %sBye Bye.\n", Color_Red, Color_Yellow,
                        Color_Reset);
-                Sleep(3000);
+                Sleep(1000);
                 exit(0);
                 return;
                 break;
@@ -460,7 +460,7 @@ void Game_Menu(struct Player* User) {
             // ctrl + c exit code
             case -2:
                 printf("%sExit.%s", Color_Red, Color_Reset);
-                Sleep(3000);
+                Sleep(1000);
                 exit(0);
                 break;
 
@@ -839,7 +839,8 @@ void Play_Game(struct Player* User, int Size_Board, int Boob_C,
            Size_Board, Color_Reset);
     printf("%sBoob:%s %d%s,", Color_Red, Color_Gray, Boob_C, Color_Reset);
     printf(" It Will Start in 3 Seconds.\n");
-    // Sleep(3000);
+
+    Sleep(3000);
 
     RUN_CLS;
 
@@ -1035,7 +1036,7 @@ void Play_Game(struct Player* User, int Size_Board, int Boob_C,
 
         Bar_Status(User, 1);
         printf("You loss :(\n");
-        Sleep(5000);
+        Sleep(3000);
     }
 
     else {
@@ -1044,7 +1045,7 @@ void Play_Game(struct Player* User, int Size_Board, int Boob_C,
 
         Bar_Status(User, 1);
         printf("You Won :)\n");
-        Sleep(5000);
+        Sleep(3000);
     }
 
     for (int k = 0; k < Size_Board; k++) {
@@ -1177,7 +1178,7 @@ void Admin_Panel(struct Player* Admin, struct Player* Users) {
             // ctrl + c exit code
             case -2:
                 printf("%sExit.%s", Color_Red, Color_Reset);
-                Sleep(3000);
+                Sleep(1000);
                 exit(0);
                 break;
 
@@ -1427,7 +1428,7 @@ void Admin_Panel(struct Player* Admin, struct Player* Users) {
                 Bar_Status(Admin, 2);
                 printf("%sExit%s :) %sBye Bye.\n", Color_Red, Color_Yellow,
                        Color_Reset);
-                Sleep(3000);
+                Sleep(1000);
                 exit(0);
                 return;
                 break;
@@ -1507,7 +1508,7 @@ void Error_Management(int code) {
             break;
     }
 
-    Sleep(3000);
+    Sleep(1000);
 
     //* Spam Protection :))))))
     printf("    %sPress Ctrl+C to Continue. %s", Color_Green, Color_Reset);
